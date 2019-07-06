@@ -5,12 +5,12 @@
 #include <ArduinoOTA.h>
 #include <creds.h>
 
-#define LED_R 16
-#define LED_G D5
+#define LED_R_PIN 16
+#define LED_G_PIN 14
+#define RELAY_PIN 4
 #define ECHO 12
 #define TRIG 13
 #define TEMP_DATA 5
-#define RELAY 4
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
@@ -18,12 +18,12 @@ const char* password = STAPSK;
 void setup() {
   Serial.begin(115200);
 
-  pinMode(LED_R, OUTPUT);
-  pinMode(LED_G, OUTPUT);
-  pinMode(RELAY, OUTPUT);
-  digitalWrite(LED_R, LOW);
-  digitalWrite(RELAY, LOW);
-  digitalWrite(LED_G, LOW);
+  pinMode(LED_R_PIN, OUTPUT);
+  pinMode(LED_G_PIN, OUTPUT);
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(LED_R_PIN, LOW);
+  digitalWrite(RELAY_PIN, LOW);
+  digitalWrite(LED_G_PIN, LOW);
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -89,15 +89,15 @@ void loop() {
     ledRState = !ledRState;
     ledGState = !ledGState;
 
-    digitalWrite(LED_R, ledRState);
-    digitalWrite(LED_G, ledGState);
+    digitalWrite(LED_R_PIN, ledRState);
+    digitalWrite(LED_G_PIN, ledGState);
     ledTs = now;
   }
 
   if (now - switchTs >= switchDelay) {
     relayState = !relayState;
 
-    digitalWrite(RELAY, relayState);
+    digitalWrite(RELAY_PIN, relayState);
     switchTs = now;
   }
 }
